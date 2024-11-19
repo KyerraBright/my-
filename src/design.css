@@ -1,0 +1,46 @@
+.designs-grid {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive columns */
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Style for each design card */
+.design-card {
+    padding: 10px;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.design-card:hover {
+    transform: scale(1.05);
+    color: #65684C; /* Hover effect to slightly enlarge the card */
+}
+
+/* Style for the image inside the card */
+.card-image {
+    margin-bottom: 10px;
+}
+
+/* Style for the card details section */
+.card-details {
+    flex-grow: 1;
+}
+
+/* Venmo logo section */
+.venmo-link {
+    margin-top: 15px;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+    .designs-grid {
+        grid-template-columns: 1fr; /* Stack the cards on smaller screens */
+    }
+}

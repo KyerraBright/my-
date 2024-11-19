@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import Home from './components/Home';
+import DesignTable from './components/DesignTable';
+import Login from './components/login';
+import Signup from './components/sign-up';
+import Cart from './components/cart';
+import DesignForm from './components/DesignForm';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+
+
+const App = () => {
+    return (
+        <Router>
+            <header>
+            <nav>
+                <ul>
+                    <li><Link to="/">Home</Link></li>
+                    <li><Link to="/designs-table">Inventory</Link></li>
+                    <li><Link to="/login">Login</Link></li>
+                    <li><Link to="/signup">Sign Up</Link></li>
+                    <li><Link to="/cart">Payment</Link></li>
+                </ul>
+            </nav>
+            </header>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/designs-table" element={<DesignTable />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/DesignForm" element={<DesignForm />} /> 
+            </Routes>
+            <footer>
+                <p> © Malea Made it</p>
+            </footer>
+        </Router>
+    );
+};
 
 export default App;
