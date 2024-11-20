@@ -25,6 +25,7 @@
 
 /* Style for the image inside the card */
 .card-image {
+    margin-right: 90px;
     margin-bottom: 10px;
 }
 
