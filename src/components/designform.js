@@ -3,6 +3,7 @@ import axios from 'axios';
 import "../design.css"
 
 const DesignForm = () => {
+    //importing from database information
     const [design, setDesign] = useState('');
     const [color, setColor] = useState('');
     const [size, setSize] = useState('');
