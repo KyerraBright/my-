@@ -1,33 +1,36 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import "../login.css"
+import { useNavigate } from 'react-router-dom'; // For React Router v6
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate(); // React Router v6 navigation
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         setErrorMessage('');
-        setLoading(true); // Start loading
+        setLoading(true);
 
         if (!username || !password) {
             setErrorMessage('Please fill in all fields.');
-            setLoading(false); // Stop loading
+            setLoading(false);
             return;
         }
 
         try {
+            // Directly using the URL, without declaring `apiUrl`
             const response = await axios.post('http://localhost:3001/login', { username, password });
 
+            // Check the response
             if (response.data.success) {
                 const role = response.data.role;
                 if (role === 'admin') {
-                    window.location.href = '/DesignForm'; // Adjust path as needed
+                    navigate('/DesignForm'); // Redirect to DesignForm for admin
                 } else if (role === 'customer') {
-                    window.location.href = '/designs-table'; // Adjust path as needed
+                    navigate('/designs-table'); // Redirect to designs-table for customer
                 } else {
                     setErrorMessage('Invalid role.');
                 }
@@ -38,12 +41,8 @@ const Login = () => {
             console.error('Error during login:', error);
             setErrorMessage('An unexpected error occurred.');
         } finally {
-            setLoading(false); // Stop loading
+            setLoading(false);
         }
-    };
-
-    const handleSignUp = () => {
-        window.location.href = '/signup'; // Adjust path as needed
     };
 
     return (
@@ -76,7 +75,7 @@ const Login = () => {
                     <button type="submit" disabled={loading} className="btn-login">
                         {loading ? 'Logging in...' : 'Login'}
                     </button>
-                    <button type="button" onClick={handleSignUp} className="btn-signup">
+                    <button type="button" onClick={() => navigate('/signup')} className="btn-signup">
                         Sign Up
                     </button>
                     {errorMessage && <div className="error-message">{errorMessage}</div>}

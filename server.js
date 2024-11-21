@@ -184,6 +184,8 @@ app.post('/sign-up', (req, res) => {
     });
   });
 });
+console.log('API URL:', process.env.REACT_APP_API_URL);
+
 
 // Start the server
 app.listen(port, () => {
