@@ -21,10 +21,9 @@ const Login = () => {
         }
 
         try {
-            // Directly using the URL, without declaring `apiUrl`
+            // Ensure REACT_APP_API_URL is correct
             const response = await axios.post('http://localhost:3001/login', { username, password });
 
-            // Check the response
             if (response.data.success) {
                 const role = response.data.role;
                 if (role === 'admin') {
@@ -72,12 +71,21 @@ const Login = () => {
                             placeholder="Enter your password"
                         />
                     </div>
-                    <button type="submit" disabled={loading} className="btn-login">
+                    {/* Replacing the button with an onClick div */}
+                    <div
+                        className="btn-login"
+                        onClick={handleSubmit}
+                        style={{ cursor: 'pointer', padding: '10px 20px', backgroundColor: '#4CAF50', color: 'white', textAlign: 'center', borderRadius: '5px' }}
+                    >
                         {loading ? 'Logging in...' : 'Login'}
-                    </button>
-                    <button type="button" onClick={() => navigate('/signup')} className="btn-signup">
+                    </div>
+                    <div
+                        className="btn-signup"
+                        onClick={() => navigate('/signup')}
+                        style={{ cursor: 'pointer', padding: '10px 20px', backgroundColor: '#008CBA', color: 'white', textAlign: 'center', borderRadius: '5px', marginTop: '10px' }}
+                    >
                         Sign Up
-                    </button>
+                    </div>
                     {errorMessage && <div className="error-message">{errorMessage}</div>}
                 </form>
             </div>
