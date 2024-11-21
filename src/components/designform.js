@@ -35,7 +35,7 @@ const DesignForm = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:3001/add', formData, {
+            const response = await axios.post('/add', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data', // This is crucial for file upload
                 }

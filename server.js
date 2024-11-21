@@ -6,8 +6,8 @@ const multer = require('multer');
 const app = express();
 const port = 3001;
 
-// Enable CORS
 app.use(cors());
+
 app.use(express.json());
 
 // Set up file storage using Multer
@@ -184,7 +184,6 @@ app.post('/sign-up', (req, res) => {
     });
   });
 });
-console.log('API URL:', process.env.REACT_APP_API_URL);
 
 
 // Start the server

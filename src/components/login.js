@@ -21,7 +21,6 @@ const Login = () => {
         }
 
         try {
-            // Ensure REACT_APP_API_URL is correct
             const response = await axios.post('http://localhost:3001/login', { username, password });
 
             if (response.data.success) {
@@ -71,18 +70,47 @@ const Login = () => {
                             placeholder="Enter your password"
                         />
                     </div>
-                    {/* Replacing the button with an onClick div */}
+                    {/* Using a div with role="button" */}
                     <div
                         className="btn-login"
                         onClick={handleSubmit}
-                        style={{ cursor: 'pointer', padding: '10px 20px', backgroundColor: '#4CAF50', color: 'white', textAlign: 'center', borderRadius: '5px' }}
+                        role="button"
+                        tabIndex={0} // Make it focusable
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                handleSubmit(e);
+                            }
+                        }}
+                        style={{
+                            cursor: 'pointer',
+                            padding: '10px 20px',
+                            backgroundColor: '#4CAF50',
+                            color: 'white',
+                            textAlign: 'center',
+                            borderRadius: '5px',
+                        }}
                     >
                         {loading ? 'Logging in...' : 'Login'}
                     </div>
                     <div
                         className="btn-signup"
                         onClick={() => navigate('/signup')}
-                        style={{ cursor: 'pointer', padding: '10px 20px', backgroundColor: '#008CBA', color: 'white', textAlign: 'center', borderRadius: '5px', marginTop: '10px' }}
+                        role="button"
+                        tabIndex={0} // Make it focusable
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                navigate('/signup');
+                            }
+                        }}
+                        style={{
+                            cursor: 'pointer',
+                            padding: '10px 20px',
+                            backgroundColor: '#008CBA',
+                            color: 'white',
+                            textAlign: 'center',
+                            borderRadius: '5px',
+                            marginTop: '10px',
+                        }}
                     >
                         Sign Up
                     </div>

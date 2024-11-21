@@ -20,7 +20,7 @@ const App = () => {
                     <li><Link to="/login">Login</Link></li>
                     <li><Link to="/signup">Sign Up</Link></li>
                     <li><Link to="/cart">Payment</Link></li>
-
+                    <li><Link to="/DesignForm">Add Design</Link></li>  
                 </ul>
             </nav>
             </header>
