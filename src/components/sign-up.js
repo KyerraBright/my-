@@ -13,7 +13,7 @@ const Signup = () => {
         setLoading(true); // Set loading to true when the form is being submitted
 
         try {
-            const response = await axios.post('http://localhost:3001/sign-up', {
+            const response = await axios.post('http://localhost:80/sign-up', {
                 username, password, isAdmin: false // Default user role as false
             });
             setMessage(response.data.message);

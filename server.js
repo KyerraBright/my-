@@ -1,204 +1,80 @@
 const express = require('express');
-const path = require('path');
-const mysql = require('mysql');
+const mongoose = require('mongoose');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+// Set up Express app
 const app = express();
-const port = 80;
+const port = 5000;
 
-
-app.use(cors({
-  origin: 'http://localhost:3000',  // Ensure this matches the frontend's URL
-  methods: ['GET', 'POST', 'DELETE', 'PUT'],  // Add allowed methods if necessary
-  allowedHeaders: ['Content-Type', 'Authorization'],  // Add any custom headers you need
-}));
-
-app.listen(port, '0.0.0.0', () => {
-  console.log(`Server is running on http://50.6.155.46:${port}`);
+// MongoDB schema and model
+const designSchema = new mongoose.Schema({
+    design: { type: String, required: true },
+    color: String,
+    size: String,
+    price: Number,
+    image: String, // Path to the uploaded image
 });
 
+const Design = mongoose.model('yourtable', designSchema);
 
-
+// Middleware setup
+app.use(cors());
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// Set up file storage using Multer
-const storage = multer.memoryStorage(); // Store image in memory
-const upload = multer({ storage }); // Limit the file size (optional but good for debugging)
-const uploadLimit = 2 * 1024 * 1024; // 2MB max file size
+// Serve static files from the uploads directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Set file size limit for Multer
-const uploadWithLimit = multer({
-  storage,
-  limits: { fileSize: uploadLimit },  // Add limit to avoid huge files crashing your server
-}).single('image');
-
-// Middleware to parse JSON bodies
-app.use(express.json());
-
-// Create a connection to the database
-const connection = mysql.createConnection({
-  host: '50.6.155.46',
-  port: 3306,
-  user: 'rmskskmy_Malea',
-  password: 'Kyerra030101',
-  database: 'rmskskmy_Malea',
-});
-
-connection.connect((err) => {
-  if (err) {
-    console.error('Error connecting: ' + err.stack);
-    return;
-  }
-  console.log('Connected as id ' + connection.threadId);
-});
-
-// Serve the static React app
-app.use(express.static(path.join(__dirname, 'client/build')));
-
-// Create a new route to serve data to the front-end
-app.get('/data', (req, res) => {
-  const query = 'SELECT * FROM yourtable'; // Ensure this table exists
-
-  connection.query(query, (error, results) => {
-    if (error) {
-      console.error('Error in the query: ', error);
-      res.status(500).send('Server error');
-      return;
-    }
-
-    const modifiedResults = results.map((row) => ({
-      design: row.Design,
-      color: row.Color,
-      size: row.Size,
-      price: row.Price,
-      image: row.image
-        ? `data:image/jpeg;base64,${row.image.toString('base64')}`
-        : null,
-    }));
-
-    res.json(modifiedResults); // Send data as JSON
-  });
-});
-
-// POST route for login
-app.post('/login', (req, res) => {
-  const { username, password } = req.body;
-
-  // Validate input
-  if (!username || !password) {
-    return res.status(400).json({ success: false, message: 'Username and password are required.' });
-  }
-
-  const query = 'SELECT * FROM login WHERE username = ?';
-  connection.query(query, [username], (error, results) => {
-    if (error) {
-      console.error('Database query error:', error);
-      return res.status(500).json({ success: false, message: 'Internal server error.' });
-    }
-
-    if (results.length === 0) {
-      return res.status(401).json({ success: false, message: 'Invalid username or password.' });
-    }
-
-    const user = results[0];
-
-    // Check if the provided password matches the stored password (in plain text)
-    if (password === user.password) {
-      return res.json({ success: true, role: user.role, message: 'Login successful.' });
-    } else {
-      return res.status(401).json({ success: false, message: 'Invalid username or password.' });
-    }
-  });
-});
-
-// Simple /add route to handle form data + image upload
-app.post('/add', uploadWithLimit, (req, res) => {
-  // Multer validation (if no image is uploaded)
-  if (!req.file) {
-    return res.status(400).json({ message: 'No image uploaded' });
-  }
-
-  const { design, color, size, price } = req.body;
-  const image = req.file; // Multer stores the uploaded file in req.file
-
-  if (!design || !color || !size || !price || !image) {
-    return res.status(400).json({ message: 'All fields are required' });
-  }
-
-  // Insert the data into the database
-  const query = 'INSERT INTO yourtable (Design, Color, Size, Price, Image) VALUES (?, ?, ?, ?, ?)';
-  const imageBuffer = image.buffer; // Multer stores the image in a buffer
-
-  connection.query(query, [design, color, size, price, imageBuffer], (error, results) => {
-    if (error) {
-      console.error('Error in the insert query: ', error);
-      return res.status(500).json({ message: 'Server error', error: error.message });
-    }
-    res.status(201).json({ message: 'Item added successfully', id: results.insertId });
-  });
-});
-
-// DELETE Route to remove an item based on its 'design'
-app.delete('/delete/:design', (req, res) => {
-  const { design } = req.params;
-
-  // Check if 'design' is provided in the request params
-  if (!design) {
-    return res.status(400).json({ message: 'Design name is required' });
-  }
-
-  // SQL query to delete the record by the 'design' name
-  const query = 'DELETE FROM yourtable WHERE Design = ?';  // Replace 'yourtable' with your actual table name
-
-  // Execute the query to delete the record
-  connection.query(query, [design], (error, results) => {
-    if (error) {
-      console.error('Error in the delete query: ', error);
-      return res.status(500).json({ message: 'Server error', error: error.message });
-    }
-
-    if (results.affectedRows === 0) {
-      return res.status(404).json({ message: 'Design not found' });
-    }
-
-    res.status(200).json({ message: 'Design deleted successfully' });
-  });
-});
-
-// POST route for sign-up (without bcrypt)
-app.post('/sign-up', (req, res) => {
-  const { username, password, isAdmin } = req.body;
-
-  // Basic validation
-  if (!username || !password) {
-    return res.status(400).json({ message: 'Username and password are required.' });
-  }
-
-  // Check if user already exists
-  const query = 'SELECT * FROM login WHERE username = ?';
-  connection.query(query, [username], (error, results) => {
-    if (error) {
-      return res.status(500).json({ message: 'Server error' });
-    }
-
-    if (results.length > 0) {
-      return res.status(400).json({ message: 'Username is already taken.' });
-    }
-
-    // Store user data in the database (password is stored as plain text here)
-    const insertQuery = 'INSERT INTO login (username, password, role) VALUES (?, ?, ?)';
-    connection.query(insertQuery, [username, password, isAdmin ? 'admin' : 'customer'], (err, results) => {
-      if (err) {
-        return res.status(500).json({ message: 'Failed to create user', error: err.message });
-      }
-
-      res.status(201).json({ message: 'Signup successful!' });
+// MongoDB connection
+mongoose
+    .connect('mongodb://localhost:27017/yourtable', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => {
+        console.log('Connected to MongoDB');
+    })
+    .catch((err) => {
+        console.error('Error connecting to MongoDB:', err);
     });
-  });
+
+// Configure Multer for file uploads
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const uploadPath = path.join(__dirname, 'uploads');
+        if (!fs.existsSync(uploadPath)) {
+            fs.mkdirSync(uploadPath); // Create the directory if it doesn't exist
+        }
+        cb(null, uploadPath);
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`); // Unique filename
+    },
 });
 
+const upload = multer({ storage });
+
+// Endpoint to add a design with an image
+app.post('/add', upload.single('image'), async (req, res) => {
+    try {
+        const { design, color, size, price } = req.body;
+        const imagePath = req.file ? `/uploads/${req.file.filename}` : ''; // Save relative path
+
+        const newDesign = new Design({ design, color, size, price, image: imagePath });
+        await newDesign.save();
+
+        res.status(201).json({ message: 'Design added successfully!', design: newDesign });
+    } catch (error) {
+        console.error('Error adding design:', error);
+        res.status(500).json({ message: 'Failed to add design.' });
+    }
+});
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Server is running on http://localhost:${port}`);
 });

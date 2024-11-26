@@ -21,7 +21,7 @@ const Login = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:3001/login', { username, password });
+            const response = await axios.post('http://localhost:80/login', { username, password });
 
             if (response.data.success) {
                 const role = response.data.role;

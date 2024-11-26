@@ -1,0 +1,73 @@
+[
+    {
+        "Design": "Bucks",
+        "Color": "White, Black, Red, Yellow, Teal, Camo",
+        "Size": "2T, 3T, 4T, 5T",
+        "Price": "20",
+        "Image": "../images/bucks.png"
+    },
+    {
+        "Design": "Bucks (baby)",
+        "Color": "White, Black, Red, Yellow, Teal, Camo",
+        "Size": "Premie, 0-3 month, 3-6 month, 6-9 month, 12 month",
+        "Price": "15",
+        "Image": "../images/bucks.png"
+    },
+    {
+        "Design": "Fireman Hero",
+        "Color": "White, Black",
+        "Size": "2T, 3T, 4T, 5T",
+        "Price": "20",
+        "Image": "../images/firemanhero.jpg"
+    },
+    {
+        "Design": "Fireman Hero (baby)",
+        "Color": "White, Black",
+        "Size": "Premie, 0-3 month, 3-6 month, 6-9 month, 12 month",
+        "Price": "15",
+        "Image": "../images/firemanhero.jpg"
+    },
+    {
+        "Design": "Grandpa",
+        "Color": "White, Black, Red, Yellow, Teal",
+        "Size": "2T, 3T, 4T, 5T",
+        "Price": "20",
+        "Image": "../images/Grandpa.png"
+    },
+    {
+        "Design": "Grandpa (baby)",
+        "Color": "White, Black, Red, Yellow, Teal",
+        "Size": "Premie, 0-3 month, 3-6 month, 6-9 month, 12 month",
+        "Price": "15",
+        "Image": "../images/Grandpa.png"
+    },
+    {
+        "Design": "I Love You",
+        "Color": "White, Black, Red, Yellow, Teal",
+        "Size": "2T, 3T, 4T, 5T",
+        "Price": "20",
+        "Image": "../images/iloveu.jpg"
+    },
+    {
+        "Design": "I Love You (baby)",
+        "Color": "White, Black, Red, Yellow, Teal",
+        "Size": "Premie, 0-3 month, 3-6 month, 6-9 month, 12 month",
+        "Price": "15",
+        "Image": "../images/iloveu.png"
+    },
+    {
+        "Design": "Nurse",
+        "Color": "White, Black, Red, Yellow, Teal",
+        "Size": "2T, 3T, 4T, 5T",
+        "Price": "20",
+        "Image": "../images/Nurse.jpg"
+    },
+    {
+        "Design": "Nurse (baby)",
+        "Color": "White, Black, Red, Yellow, Teal",
+        "Size": "Premie, 0-3 month, 3-6 month, 6-9 month, 12 month",
+        "Price": "15",
+        "Image": "../images/Nurse.png"
+    }
+
+]
