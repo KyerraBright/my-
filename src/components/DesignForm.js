@@ -35,7 +35,7 @@ const DesignForm = () => {
         }
 
         try {
-            const response = await axios.post('/add', formData, {
+            const response = await axios.post('http://localhost:80/add', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data', // This is crucial for file upload
                 }
@@ -65,7 +65,7 @@ const DesignForm = () => {
 
         try {
             setLoading(true);
-            const response = await axios.delete('http://localhost:3001/delete', {
+            const response = await axios.delete('http://localhost:80/delete', {
                 data: { design },
             });
             console.log('Delete success:', response.data);

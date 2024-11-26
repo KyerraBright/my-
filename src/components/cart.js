@@ -11,7 +11,7 @@ const DesignsTable = () => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await axios.get('http://localhost:3001/data'); // Update the URL if needed
+                const response = await axios.get('http://localhost:80/data'); // Update the URL if needed
                 setDesigns(response.data);
             } catch (err) {
                 setError(err);

@@ -4,9 +4,20 @@ const mysql = require('mysql');
 const cors = require('cors');
 const multer = require('multer');
 const app = express();
-const port = 3001;
+const port = 80;
 
-app.use(cors());
+
+app.use(cors({
+  origin: 'http://localhost:3000',  // Ensure this matches the frontend's URL
+  methods: ['GET', 'POST', 'DELETE', 'PUT'],  // Add allowed methods if necessary
+  allowedHeaders: ['Content-Type', 'Authorization'],  // Add any custom headers you need
+}));
+
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server is running on http://50.6.155.46:${port}`);
+});
+
+
 
 app.use(express.json());
 
@@ -26,10 +37,11 @@ app.use(express.json());
 
 // Create a connection to the database
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'Malea',
-  password: 'Malea123',
-  database: 'Malea',
+  host: '50.6.155.46',
+  port: 3306,
+  user: 'rmskskmy_Malea',
+  password: 'Kyerra030101',
+  database: 'rmskskmy_Malea',
 });
 
 connection.connect((err) => {
