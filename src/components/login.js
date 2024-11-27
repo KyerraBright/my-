@@ -21,14 +21,12 @@ const Login = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:80/login', { username, password });
+            const response = await axios.post('http://localhost:5000/login', { username, password });
 
             if (response.data.success) {
                 const role = response.data.role;
                 if (role === 'admin') {
                     navigate('/DesignForm'); // Redirect to DesignForm for admin
-                } else if (role === 'customer') {
-                    navigate('/designs-table'); // Redirect to designs-table for customer
                 } else {
                     setErrorMessage('Invalid role.');
                 }
@@ -70,12 +68,11 @@ const Login = () => {
                             placeholder="Enter your password"
                         />
                     </div>
-                    {/* Using a div with role="button" */}
                     <div
                         className="btn-login"
                         onClick={handleSubmit}
                         role="button"
-                        tabIndex={0} // Make it focusable
+                        tabIndex={0}
                         onKeyDown={(e) => {
                             if (e.key === 'Enter' || e.key === ' ') {
                                 handleSubmit(e);
@@ -91,28 +88,6 @@ const Login = () => {
                         }}
                     >
                         {loading ? 'Logging in...' : 'Login'}
-                    </div>
-                    <div
-                        className="btn-signup"
-                        onClick={() => navigate('/signup')}
-                        role="button"
-                        tabIndex={0} // Make it focusable
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                                navigate('/signup');
-                            }
-                        }}
-                        style={{
-                            cursor: 'pointer',
-                            padding: '10px 20px',
-                            backgroundColor: '#008CBA',
-                            color: 'white',
-                            textAlign: 'center',
-                            borderRadius: '5px',
-                            marginTop: '10px',
-                        }}
-                    >
-                        Sign Up
                     </div>
                     {errorMessage && <div className="error-message">{errorMessage}</div>}
                 </form>

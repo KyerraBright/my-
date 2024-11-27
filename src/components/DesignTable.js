@@ -1,44 +1,69 @@
-// src/DesignTable.js
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
-const DesignTable = () => {
-  const [designs, setDesigns] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const DesignsTable = () => {
+    const [designs, setDesigns] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    axios
-      .get('http://localhost:5000/data')  // Backend API to fetch data
-      .then((response) => {
-        setDesigns(response.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err);
-        setLoading(false);
-      });
-  }, []);
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const response = await axios.get('http://localhost:5000/data'); // Update the URL if needed
+                setDesigns(response.data);
+            } catch (err) {
+                setError(err);
+                console.error('Error fetching data:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-  if (loading) return <div>Loading designs...</div>;
-  if (error) return <div>Error loading designs!</div>;
+        fetchData();
+    }, []);
 
-  return (
-    <div>
-      <h1>Designs Gallery</h1>
-      <div className="designs-grid">
-        {designs.map((row) => (
-          <div key={row._id} className="design-card">
-            <img src={row.image} alt={row.design} />
-            <h3>{row.design}</h3>
-            <p>{row.color}</p>
-            <p>{row.size}</p>
-            <p>{row.price}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+    if (loading) return <div>Loading designs...</div>;
+    if (error) return <div>Error loading designs!</div>;
+
+    return (
+        <div>
+            <h1>Designs Gallery</h1>
+
+            {/* Container for the grid of cards */}
+            <div className="designs-grid">
+                {designs.map((row) => (
+                    <Link 
+                        key={row.design} 
+                        to={`/cart`} // Navigate to the cart page when clicked
+                        className="design-card-link" // Optional: Add a class for styling the link
+                    >
+                        <div className="design-card">
+                            <div className="card-image">
+                                <img 
+                                    src={row.image} 
+                                    alt={row.design} 
+                                    style={{ width: '100%', height: 'auto', borderRadius: '8px' }} 
+                                />
+                            </div>
+                            <div className="card-details">
+                            <img 
+                                src={`http://localhost:5000${row.image}`} 
+                                alt={row.design} 
+                                style={{ width: '100%', height: 'auto', borderRadius: '8px' }} 
+                                  />
+
+                                <p><strong>Color:</strong> {row.color}</p>
+                                <p><strong>Size:</strong> {row.size}</p>
+                                <p><strong>Price:</strong> ${row.price}</p>
+                            </div>
+                        </div>
+                    </Link>
+                ))}
+            </div>
+        </div>
+    );
 };
 
-export default DesignTable;
+export default DesignsTable;

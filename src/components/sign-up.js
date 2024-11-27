@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../login.css'; // Use the same CSS file as for the login
+import '../login.css'; // Same CSS file for consistent styling
 
 const Signup = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
-    const [loading, setLoading] = useState(false); // Add loading state for button
+    const [loading, setLoading] = useState(false); // Loading state for the button
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -16,13 +16,13 @@ const Signup = () => {
             const response = await axios.post('http://localhost:80/sign-up', {
                 username, password, isAdmin: false // Default user role as false
             });
-            setMessage(response.data.message);
-       
+            setMessage(response.data.message);  // Display success message
+
         } catch (error) {
             console.error('Signup failed:', error.response?.data.message);
-            setMessage('Signup failed. Please try again.');
+            setMessage('Signup failed. Please try again.');  // Display error message
         } finally {
-            setLoading(false); // Set loading to false when the request finishes
+            setLoading(false); // Set loading to false after request finishes
         }
     };
 

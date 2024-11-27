@@ -10,6 +10,11 @@ const fs = require('fs');
 const app = express();
 const port = 5000;
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+const hardcodedUsername = 'admin';
+const hardcodedPassword = 'password123';
+
 // MongoDB schema and model
 const designSchema = new mongoose.Schema({
     design: { type: String, required: true },
@@ -19,7 +24,7 @@ const designSchema = new mongoose.Schema({
     image: String, // Path to the uploaded image
 });
 
-const Design = mongoose.model('yourtable', designSchema);
+const Design = mongoose.model('Design', designSchema);
 
 // Middleware setup
 app.use(cors());
@@ -41,6 +46,17 @@ mongoose
     .catch((err) => {
         console.error('Error connecting to MongoDB:', err);
     });
+
+// Endpoint to fetch data (for DesignTable component)
+app.get('/data', async (req, res) => {
+    try {
+        const designs = await Design.find(); // Fetch all designs from the DB
+        res.status(200).json(designs); // Send them as a JSON response
+    } catch (error) {
+        console.error('Error fetching designs:', error);
+        res.status(500).json({ message: 'Failed to fetch designs' });
+    }
+});
 
 // Configure Multer for file uploads
 const storage = multer.diskStorage({
@@ -71,6 +87,80 @@ app.post('/add', upload.single('image'), async (req, res) => {
     } catch (error) {
         console.error('Error adding design:', error);
         res.status(500).json({ message: 'Failed to add design.' });
+    }
+});
+// Assuming you're using Express.js
+// Endpoint to delete a design
+app.delete('/delete', async (req, res) => {
+    try {
+        const { design } = req.query;  // Get the design name from the query parameters
+        if (!design) {
+            return res.status(400).send({ message: 'Design name is required' });
+        }
+
+        // Find and delete the design from the database
+        const deletedDesign = await Design.findOneAndDelete({ design });
+
+        if (!deletedDesign) {
+            return res.status(404).send({ message: 'Design not found' });
+        }
+
+        res.send({ message: 'Design deleted successfully!' });
+    } catch (error) {
+        console.error('Error deleting:', error);
+        res.status(500).send({ message: 'Failed to delete item. Please try again.' });
+    }
+});
+
+
+// User Schema and Model
+mongoose.connect('mongodb://localhost:27017/login', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+    .then(() => console.log('Connected to MongoDB'))
+    .catch((err) => console.error('Failed to connect to MongoDB', err));
+  
+  // Login route
+  app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+
+    if (username === hardcodedUsername && password === hardcodedPassword) {
+        // Assuming 'admin' role for the hardcoded user
+        res.json({
+            success: true,
+            role: 'admin', // Set the role to 'admin' for this test user
+            message: 'Login successful'
+        });
+    } else {
+        res.status(401).json({
+            success: false,
+            message: 'Invalid username or password'
+        });
+    }
+});
+  app.post('/sign-up', async (req, res) => {
+    const { username, password, isAdmin } = req.body;
+
+    if (!username || !password) {
+        return res.status(400).json({ message: 'Username and password are required' });
+    }
+
+    try {
+        // Check if the username already exists
+        const existingUser = await User.findOne({ username });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Username is already taken' });
+        }
+
+        // Create a new user
+        const newUser = new User({ username, password, isAdmin });
+        await newUser.save();
+
+        res.status(201).json({ message: 'User signed up successfully' });
+    } catch (err) {
+        console.error('Sign-up error:', err);
+        res.status(500).json({ message: 'Failed to sign up. Please try again.' });
     }
 });
 
