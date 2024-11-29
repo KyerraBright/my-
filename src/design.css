@@ -1,42 +1,49 @@
+/* Grid layout for the designs */
 .designs-grid {
-    padding: 10px;
+    padding: 20px; /* Outer padding for the grid */
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive columns */
-    gap: 20px;
-    padding: 20px;
+    gap: 20px; /* Spacing between grid items */
 }
 
 /* Style for each design card */
 .design-card {
-    padding: 10px;
+    padding: 20px; /* Padding for the design card */
     border-radius: 8px;
-    padding: 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center; /* Centering content inside the card */
+    text-align: center; /* Center text inside the card */
 }
 
+/* Hover effect for design card */
 .design-card:hover {
-    transform: scale(1.05);
-    color: #65684C; /* Hover effect to slightly enlarge the card */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+    color: #65684C; /* Change text color on hover */
 }
 
-/* Style for the image inside the card */
+/* Center the image inside the card */
 .card-image {
-    margin-right: 90px;
-    margin-bottom: 10px;
+    display: flex;
+    justify-content: center; /* Center the image horizontally */
+    align-items: center; /* Center the image vertically */
+    width: 100%;
+    height: 200px; /* Optional: Set a fixed height for the image container */
+    margin-bottom: 15px; /* Space between image and details */
+}
+
+.card-image img {
+    max-width: 100%; /* Ensure image scales with the container */
+    max-height: 100%; /* Ensure image scales with the container */
+    object-fit: contain; /* Maintain aspect ratio of the image */
 }
 
 /* Style for the card details section */
 .card-details {
     flex-grow: 1;
-}
-
-/* Venmo logo section */
-.venmo-link {
-    margin-top: 15px;
 }
 
 /* Responsive styling */
@@ -45,3 +52,116 @@
         grid-template-columns: 1fr; /* Stack the cards on smaller screens */
     }
 }
+/* Container for the entire login form */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f9; /* Light background color */
+    margin: 0;
+  }
+  
+  /* Centered box where the form elements will go */
+  .login-box {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  /* Style for the form header */
+  .login-box h2 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Form group container for inputs */
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  /* Label for the inputs */
+  .form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+  }
+  
+  /* Style for input fields */
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+    box-sizing: border-box; /* Ensures padding doesn't increase width */
+  }
+  
+  /* Input field focus effect */
+  .form-group input:focus {
+    border-color: #4CAF50;
+    outline: none;
+  }
+  
+  /* Style for the login button */
+  .btn-login {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Button hover effect */
+  .btn-login:hover {
+    background-color: #45a049;
+  }
+  
+  /* Button active effect */
+  .btn-login:active {
+    background-color: #388e3c;
+  }
+  
+  /* Error message styling */
+  .error-message {
+    margin-top: 15px;
+    text-align: center;
+    color: red;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  /* Optional: Responsive design for smaller screens */
+  @media (max-width: 600px) {
+    .login-box {
+      padding: 20px;
+    }
+  
+    .login-box h2 {
+      font-size: 20px;
+    }
+  
+    .form-group input {
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    .btn-login {
+      font-size: 14px;
+      padding: 10px;
+    }
+  }
+  
+  
