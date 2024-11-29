@@ -30,12 +30,11 @@ const DesignTable = () => {
       <div className="designs-grid">
         {/* Iterate over the designs array to create design cards */}
         {designs.map((row) => (
-          <Link 
-            key={row._id}  // Unique key for each design card
-            to={`/cart`} // Navigate to the cart page when clicked
-            className="design-card-link" // Optional: Add a class for styling the link
-          >
-            <div className="design-card">
+          <div key={row._id} className="design-card">
+            <Link 
+              to={`/cart`} // Navigate to the cart page when clicked
+              className="design-card-link" // Optional: Add a class for styling the link
+            >
               <div className="card-image">
                 {/* Ensure image source is valid */}
                 <img 
@@ -50,24 +49,24 @@ const DesignTable = () => {
                 <p><strong>Size:</strong> {row.size}</p>
                 <p><strong>Price:</strong> ${row.price}</p>
               </div>
-            </div>
-          </Link>
-        ))}
-      </div>
+            </Link>
 
-      {/* Venmo Link */}
-      <div className="venmo-link">
-        <a 
-          href="https://account.venmo.com/u/MaleaMadeIt" 
-          target="_blank" 
-          rel="noopener noreferrer"
-        >
-          <img 
-            src={venmoLogo} 
-            alt="Venmo logo" 
-            style={{ width: '50px', height: 'auto', cursor: 'pointer' }} 
-          />
-        </a>
+            {/* Venmo Button for each card */}
+            <div className="venmo-link">
+              <a 
+                href="https://account.venmo.com/u/MaleaMadeIt" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                <img 
+                  src={venmoLogo} 
+                  alt="Venmo logo" 
+                  style={{ width: '50px', height: 'auto', cursor: 'pointer' }} 
+                />
+              </a>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
