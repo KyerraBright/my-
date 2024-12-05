@@ -98,24 +98,24 @@ const DesignForm = () => {
             <h1>Add or Delete Design</h1>
             <h2>Please add address, design name and size to the description in venmo</h2>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="design">Design:</label>
-                <input type="text" id="design" value={design} onChange={(e) => setDesign(e.target.value)} required />
+                <label htmlFor="design">Design:</label><br/>
+                <input type="text" id="design" value={design} onChange={(e) => setDesign(e.target.value)} required /><br/>
                 
-                <label htmlFor="color">Color:</label>
-                <input type="text" id="color" value={color} onChange={(e) => setColor(e.target.value)} required />
+                <label htmlFor="color">Color:</label><br/>
+                <input type="text" id="color" value={color} onChange={(e) => setColor(e.target.value)} required /><br/>
                 
-                <label htmlFor="size">Size:</label>
-                <input type="text" id="size" value={size} onChange={(e) => setSize(e.target.value)} required />
+                <label htmlFor="size">Size:</label><br/>
+                <input type="text" id="size" value={size} onChange={(e) => setSize(e.target.value)} required /><br/>
                 
-                <label htmlFor="price">Price:</label>
-                <input type="number" id="price" value={price} onChange={(e) => setPrice(e.target.value)} required />
+                <label htmlFor="price">Price:</label><br/>
+                <input type="number" id="price" value={price} onChange={(e) => setPrice(e.target.value)} required /><br/>
                 
-                <label htmlFor="image">Image:</label>
-                <input type="file" id="image" accept="image/*" onChange={handleImageChange} required />
+                <label htmlFor="image">Image:</label><br/>
+                <input type="file" id="image" accept="image/*" onChange={handleImageChange} required /><br/>
                 
-                {imagePreview && <img src={imagePreview} alt="Preview" style={{ width: '100px', height: '100px' }} />}
+                {imagePreview && <img src={imagePreview} alt="Preview" style={{ width: '100px', height: '100px' }} />}<br/>
                 
-                <button type="submit" disabled={loading}>{loading ? 'Adding...' : 'Add'}</button>
+                <button type="submit" disabled={loading}>{loading ? 'Adding...' : 'Add'}</button><br/>
                 <button type="button" onClick={handleDelete} disabled={loading}>Delete</button>
             </form>
             {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
