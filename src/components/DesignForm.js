@@ -96,7 +96,6 @@ const DesignForm = () => {
     return (
         <div>
             <h1>Add or Delete Design</h1>
-            <h2>Please add address, design name and size to the description in venmo</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="design">Design:</label><br/>
                 <input type="text" id="design" value={design} onChange={(e) => setDesign(e.target.value)} required /><br/>

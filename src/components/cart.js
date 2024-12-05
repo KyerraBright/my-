@@ -27,6 +27,7 @@ const DesignTable = () => {
   return (
     <div>
       <h1>Designs Gallery</h1>
+      <h2>Please add address, design name and size to the description in venmo</h2>
       <div className="designs-grid">
         {/* Iterate over the designs array to create design cards */}
         {designs.map((row) => (
