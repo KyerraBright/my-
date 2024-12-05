@@ -9,7 +9,7 @@ const DesignTable = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/data')  // Backend API to fetch data
+      .get('http://localhost:5000/data')  // to fetch the data from the database
       .then((response) => {
         setDesigns(response.data);
         setLoading(false);
@@ -20,23 +20,22 @@ const DesignTable = () => {
       });
   }, []);
 
-  if (loading) return <div>Loading designs...</div>;
-  if (error) return <div>Error loading designs!</div>;
+  if (loading) return <div>Loading designs...</div>; // when loading the data
+  if (error) return <div>Error loading designs!</div>; // if an error occures
 
   return (
     <div>
       <h1>Designs Gallery</h1>
       <div className="designs-grid">
-        {/* Iterate over the designs array to create design cards */}
         {designs.map((row) => (
           <Link 
             key={row._id}  // Unique key for each design card
             to={`/cart`} // Navigate to the cart page when clicked
-            className="design-card-link" // Optional: Add a class for styling the link
+            className="design-card-link" 
           >
             <div className="design-card">
               <div className="card-image">
-                {/* Ensure image source is valid */}
+                {/* to show the different designs on the card */}
                 <img 
                   src={`http://localhost:5000${row.image}`} 
                   alt={row.design} 

@@ -1,9 +1,8 @@
 import React from 'react';
-import logo from "./images/logomalea.jpg";
+import logo from "./images/logomalea.jpg"; //so we can see the logo
+import '../App.css'; // so the styling works
 
-import '../App.css';
-
-const Home = () => {
+const Home = () => { // this is what you see
     return (
         <div>
             <h1>Welcome to </h1>

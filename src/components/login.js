@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // For React Router v6
+import { useNavigate } from 'react-router-dom'; // import the navigation
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -24,9 +24,9 @@ const Login = () => {
             const response = await axios.post('http://localhost:5000/login', { username, password });
 
             if (response.data.success) {
-                const role = response.data.role;
+                const role = response.data.role; // if an admin
                 if (role === 'admin') {
-                    navigate('/DesignForm'); // Redirect to DesignForm for admin
+                    navigate('/DesignForm'); // takes you to design form page
                 } else {
                     setErrorMessage('Invalid role.');
                 }

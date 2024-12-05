@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import "../design.css"
+import "../design.css" // imported the styling
 
 const DesignForm = () => {
     const [design, setDesign] = useState('');
@@ -11,7 +11,7 @@ const DesignForm = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [loading, setLoading] = useState(false);
-    const [imagePreview, setImagePreview] = useState('');
+    const [imagePreview, setImagePreview] = useState(''); // it show you the image you put in
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -96,6 +96,7 @@ const DesignForm = () => {
     return (
         <div>
             <h1>Add or Delete Design</h1>
+            <h2>Please add address, design name and size to the description in venmo</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="design">Design:</label>
                 <input type="text" id="design" value={design} onChange={(e) => setDesign(e.target.value)} required />

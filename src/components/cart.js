@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom'; // Import Link for navigation
-import venmoLogo from '../components/images/venmo_logo.webp';  // Adjust the path to your Venmo logo image
+import venmoLogo from '../components/images/venmo_logo.webp';  // venmo link
 
 const DesignTable = () => {
   const [designs, setDesigns] = useState([]);
@@ -10,7 +10,7 @@ const DesignTable = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/data')  // Backend API to fetch data
+      .get('http://localhost:5000/data')  // get data from the database
       .then((response) => {
         setDesigns(response.data);
         setLoading(false);
@@ -21,8 +21,8 @@ const DesignTable = () => {
       });
   }, []);
 
-  if (loading) return <div>Loading designs...</div>;
-  if (error) return <div>Error loading designs!</div>;
+  if (loading) return <div>Loading designs...</div>; // for when the design is loading
+  if (error) return <div>Error loading designs!</div>; // for when there is an error loading design
 
   return (
     <div>
